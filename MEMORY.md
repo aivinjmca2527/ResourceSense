@@ -28,6 +28,8 @@ Users also regularly misinterpret OS memory metrics—mistaking beneficial "recl
   - `GET /api/startup` (Windows registry + Linux autostart/systemd detection, graceful degradation schema).
   - `POST /api/startup/toggle` (Safe enable/disable endpoint with status verification).
 - [x] Initialized project documentation and system design specifications.
+- [x] Configured comprehensive [`.gitignore`](file:///home/aivin/Desktop/GIt/projects/ResourceSense/.gitignore) covering Python bytecode, virtual environments (`venv/`), caches, and OS artifacts.
+- [x] Initialized Git repository for ResourceSense and pushed clean codebase to GitHub (`aivinjmca2527/ResourceSense`).
 - [x] **Backend fully implemented and tested** ([`backend/app.py`](file:///home/aivin/Desktop/GIt/projects/ResourceSense/backend/app.py)):
   - **`GET /api/dashboard`**: Health score (0-100), CPU stats, 3-tier memory breakdown (in-use / reclaimable cache / truly free), filtered disk partitions (squashfs/snap/tmpfs excluded), battery status. Uses a background poller thread (2-second interval) for CPU stats — no busy loops.
   - **`GET /api/battery`**: Battery info with graceful `None` handling (desktops/VMs), per-process drain ranking (top 20, sorted by drain score — 70% CPU + 30% memory weighted), plain-language rule-based tips (no AI), global advisory tips.
