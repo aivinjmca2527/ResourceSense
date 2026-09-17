@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResourceSense</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>ResourceSense</h1>
+    <nav id="tabs">
+      <button class="tab active" data-tab="dashboard">Dashboard</button>
+      <button class="tab" data-tab="battery">Battery Drain</button>
+      <button class="tab" data-tab="startup">Startup Impact</button>
+    </nav>
+  </header>
+
+  <!-- ======================== DASHBOARD TAB ======================== -->
+  <main id="tab-dashboard" class="tab-panel active">
+    <div class="dash-top">
+      <!-- Health Gauge -->
+      <div id="health-gauge" class="gauge-box">
+        <svg viewBox="0 0 120 70" class="gauge-svg">
+          <path d="M10,65 A50,50 0 0,1 110,65" fill="none" stroke="#2a2d35" stroke-width="10" stroke-linecap="round"/>
+          <path id="gauge-arc" d="M10,65 A50,50 0 0,1 110,65" fill="none" stroke="#4ade80" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 157"/>
+        </svg>
+        <div class="gauge-label">
+          <span id="gauge-score">--</span>
+          <span id="gauge-status" class="badge">--</span>
+        </div>
+        <p id="gauge-summary" class="muted">Loading…</p>
+      </div>
+
+      <!-- CPU -->
+      <div class="info-card" id="cpu-card">
+        <h3>CPU</h3>
+        <div class="metric-row"><span>Usage</span><span id="cpu-pct">--%</span></div>
+        <div class="metric-row"><span>Cores</span><span id="cpu-cores">--</span></div>
+        <div class="metric-row"><span>Freq</span><span id="cpu-freq">-- MHz</span></div>
+        <div class="metric-row"><span>Load 1m</span><span id="cpu-load">--</span></div>
+      </div>
+
+      <!-- Battery summary on dashboard -->
+      <div class="info-card" id="batt-card">
+        <h3>Power</h3>
+        <div id="batt-dash-content">
+          <div class="metric-row"><span>Status</span><span id="dash-batt-status">--</span></div>
+          <div class="metric-row"><span>Level</span><span id="dash-batt-pct">--</span></div>
+          <div class="metric-row"><span>Time</span><span id="dash-batt-time">--</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Memory Breakdown -->
+    <section id="memory-section">
+      <h3>Memory <span id="mem-total" class="muted"></span></h3>
+      <div class="stacked-bar-container">
+        <div class="stacked-bar">
+          <div id="mem-bar-used" class="bar-seg seg-used" style="width:0%"></div>
+          <div id="mem-bar-cache" class="bar-seg seg-cache" style="width:0%"></div>
+          <div id="mem-bar-free" class="bar-seg seg-free" style="width:0%"></div>
+        </div>
+        <div class="bar-legend">
+          <span class="legend-item"><span class="dot dot-used"></span>In Use: <b id="mem-used-label">--</b></span>
+          <span class="legend-item"><span class="dot dot-cache"></span>Reclaimable Cache: <b id="mem-cache-label">--</b></span>
+          <span class="legend-item"><span class="dot dot-free"></span>Truly Free: <b id="mem-free-label">--</b></span>
+        </div>
+      </div>
+      <p id="mem-explanation" class="muted small"></p>
+    </section>
+
+    <!-- Disk -->
+    <section id="disk-section">
+      <h3>Storage</h3>
+      <div id="disk-list"></div>
+    </section>
+  </main>
+
+  <!-- ======================== BATTERY TAB ======================== -->
+  <main id="tab-battery" class="tab-panel">
+    <div id="batt-header">
+      <div id="batt-status-box" class="info-card">
+        <h3>Battery</h3>
+        <div id="batt-info-content">--</div>
+      </div>
+    </div>
+    <div id="batt-no-battery" class="notice" style="display:none">
+      <p>⚡ No battery detected — this system runs on AC wall power.</p>
+    </div>
+    <section id="batt-ranking-section">
+      <h3>Process Drain Ranking</h3>
+      <table id="batt-table">
+        <thead>
+          <tr>
+            <th>PID</th><th>Name</th><th>CPU %</th><th>Mem MB</th><th>Drain</th><th>Impact</th><th>Tip</th>
+          </tr>
+        </thead>
+        <tbody id="batt-tbody"></tbody>
+      </table>
+    </section>
+    <section id="batt-tips-section">
+      <h3>Tips</h3>
+      <ul id="batt-tips-list"></ul>
+    </section>
+  </main>
+
+  <!-- ======================== STARTUP TAB ======================== -->
+  <main id="tab-startup" class="tab-panel">
+    <div id="startup-header" class="info-card">
+      <h3>Startup Programs <span id="startup-os" class="badge">--</span></h3>
+      <div class="metric-row"><span>Total</span><span id="su-total">--</span></div>
+      <div class="metric-row"><span>Enabled</span><span id="su-enabled">--</span></div>
+      <div class="metric-row"><span>High Impact</span><span id="su-high">--</span></div>
+    </div>
+    <div id="startup-degraded" class="notice warn" style="display:none"></div>
+    <div id="startup-error" class="notice error" style="display:none"></div>
+    <table id="startup-table">
+      <thead>
+        <tr>
+          <th>Name</th><th>Command</th><th>Source</th><th>Impact</th><th>Reason</th><th>Enabled</th>
+        </tr>
+      </thead>
+      <tbody id="startup-tbody"></tbody>
+    </table>
+  </main>
+
+  <footer>
+    <span class="muted" id="poll-status">Connecting…</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
